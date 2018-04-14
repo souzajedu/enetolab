@@ -6,3 +6,8 @@ print "Opala 78"
 
 #klsjfklsjkl
 print "Wrong"
+
+
+print "Eba Eba"
+
+print "Crise" 
