@@ -1,0 +1,9 @@
+---
+# tasks file for puppet
+
+- name: Install Puppet
+  hosts: dev
+  tasks:
+#    - include: pre-reqs.yml
+    - include: pre-reqs-apt-yum.yml
+    - include: install_puppet.yml

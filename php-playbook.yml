@@ -1,0 +1,41 @@
+---
+- name: Garantindo a Configuracao
+  hosts: dev
+  tasks:
+    - name: Users 
+      user: name=developer state=present
+      #user: name=developer state=absent
+
+    # Install 2 packages - Apache2, PHP7.0 and libapache2-mod-php7.0
+    # Enable module in PHP: a2enmod php
+    # Put index.php in /var/www/html "Hello PHP!"
+    - name: Install packages in LAMP
+      apt: name={{item}} state=present
+      with_items:
+      - apache2
+      - php7.0
+      - libapache2-mod-php7.0
+
+   # - name: Install PHP
+   #   apt:
+   #     name: php7.0
+   #     state: present
+
+    - name: Enable module in PHP7
+      shell: a2enmod php7.0
+
+    #- name: Colocando Hello World
+    #  shell: echo '<?php echo "Hello World PHP7"; ?>' > /var/www/html/index.php
+    #  notify: Restart in Apache
+   
+    - name: Copy deploy 
+      copy:
+        src: files/index.php
+        dest: /var/www/html/index.php
+      notify: Restart in Apache
+
+  handlers:
+    - name: Restart in Apache
+      service: 
+        name: apache2 
+        state: restarted

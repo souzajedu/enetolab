@@ -1,0 +1,11 @@
+---
+### Pre-reqs install Puppet
+- name: Configuring Repo Puppet
+  get_url:
+    url: https://apt.puppetlabs.com/puppet5-release-xenial.deb
+    dest: /tmp/puppet.deb
+
+- name: Install Repo
+  apt:
+   deb: /tmp/puppet.deb
+    

@@ -1,0 +1,38 @@
+---
+- name: Garantindo a Configuracao
+  hosts: dev
+  tasks:
+    - name: Users 
+      user: name=developer state=present
+      #user: name=developer state=absent
+
+    # Install 3 packages - httpd, PHP7.0 and libapache2-mod-php7.0
+    # Enable module in PHP: a2enmod php
+    # Put index.php in /var/www/html "Hello PHP!"
+    - name: Install in Centos
+      yum: name={{item}} state=present
+      with_items:
+      - httpd
+      #- php7.0
+      #- libapache2-mod-php7.0
+      notify: Restart in httpd
+      when: ansible_distribution == "CentOS"
+   
+    - name: Install in Ubuntu
+      apt:
+        name: apache2
+        state: present
+      notify: Restart in Apache2
+      when: ansible_distribution == "Ubuntu"
+
+  handlers:
+    - name: Restart in httpd
+      service: 
+        name: httpd
+        state: started
+
+    - name: Restart in Apache2
+      service: 
+        name: apache2
+        state: started
+ 

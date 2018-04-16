@@ -1,0 +1,12 @@
+[prod]
+192.168.201.121 #Ubuntu1
+192.168.201.108 #Ubuntu2
+
+[dev]
+192.168.201.128 #Dev1
+192.168.201.61  #Dev2
+192.168.201.76 #Dev3
+192.168.201.83 #Dev4
+
+
+#ansible_ssh_common_args='-o StrictHostKeyChecking=no'

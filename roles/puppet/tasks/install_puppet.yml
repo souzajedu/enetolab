@@ -1,0 +1,21 @@
+---
+- name: Install Puppet Ubuntu
+  apt: 
+    name: puppet-agent
+    state: present
+    update_cache: yes
+  when: ansible_distribution == "Ubuntu"
+
+- name: Install Puppet Centos
+  yum: 
+    name: puppet-agent
+    state: present
+    update_cache: yes
+  when: ansible_distribution == "CentOS"
+
+
+#- name: Put Puppet in variable PATH
+#  lineinfile:
+#    path: /etc/profile
+#    line: "export PATH:$PATH:/opt/puppetlabs/bin"
+#    create: yes

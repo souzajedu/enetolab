@@ -1,4 +1,0 @@
-
-
-
-print "Code 3"

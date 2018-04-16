@@ -1,0 +1,23 @@
+---
+### Pre-reqs install Puppet
+- name: Configuring Repo Puppet In Ubuntu
+  get_url:
+    url: https://apt.puppetlabs.com/puppet5-release-xenial.deb
+    dest: /tmp/puppet.deb
+  when: ansible_distribution == "Ubuntu"
+
+- name: Install Repo Ubuntu
+  apt:
+   deb: /tmp/puppet.deb
+  when: ansible_distribution == "Ubuntu"
+
+- name: Configuring Repo Puppet In Centos
+  get_url: 
+     url: https://yum.puppet.com/puppet5/puppet5-release-el-7.noarch.rpm
+     dest: /tmp/puppet.rpm
+  when: ansible_distribution == "CentOS" 
+
+- name: Install Repo Centos
+  yum: 
+    name: /tmp/puppet.rpm
+  when: ansible_distribution == "CentOS" 

@@ -1,0 +1,26 @@
+---
+- name: Garantindo a Configuracao
+  hosts: dev
+  tasks:
+    - name: Users 
+      user: name=developer state=present
+      #user: name=developer state=absent
+
+    - name: Install Apache
+      apt: 
+        name: apache2
+        state: present
+
+    - name: Colocando Hello World
+      shell: echo Hello World > /var/www/html/index.html
+      notify: Restart no Apache
+
+    - name: Colocando o Pynthon
+      shell: echo Test > /var/www/html/index.html
+      notify: Restart no Apache
+
+  handlers:
+    - name: Restart no Apache
+      service: 
+        name: apache2 
+        state: restarted
