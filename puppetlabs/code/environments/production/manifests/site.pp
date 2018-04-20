@@ -15,12 +15,15 @@ node "default" {
 #  include httpd
 #}
 
-node /dev(3|4)/ {
-  include docker
-}
+#node /dev(3|4)/ {
+#  include docker
+#}
 
 node "ubuntu2" {
-  include nginx
+  #include nginx
+  include gitlab
 }
- 
 
+node "dev3" {
+  include rundeck
+}
