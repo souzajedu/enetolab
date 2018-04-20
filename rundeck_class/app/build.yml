@@ -1,0 +1,53 @@
+---
+- name: Deploy app
+  hosts: centos
+  tasks: 
+  - name: Verify ambiente Production
+    command: test -f /etc/nginx/conf.d/green.conf
+    register: ambiente
+    ignore_errors: True 
+  
+  - name: Get Ip container Green
+    command: docker exec green hostname -I
+    register: ipgreen
+    when: ambiente.rc == 1
+
+  - name: Get Ip container Blue
+    command: docker exec blue hostname -I
+    register: ipblue
+    when: ambiente.rc == 0
+
+  - name: Deploy ambiente Blue
+    copy: 
+      src: files/blue.conf
+      dest: /etc/nginx/conf.d/blue.conf
+    when: ambiente.rc == 0 
+
+  - name: Remove ambiente Green
+    file:
+      path: /etc/nginx/conf.d/green.conf
+      state: absent
+    when: ambiente.rc == 0 
+
+  - name: Deploy ambiente Green
+    copy:
+      src: files/green.conf
+      dest: /etc/nginx/conf.d/green.conf
+    when: ambiente.rc == 1
+
+  - name: Remove ambiente Blue
+    file:
+      path: /etc/nginx/conf.d/blue.conf
+      state: absent
+    when: ambiente.rc == 1
+  
+  - name: Restart Nginx
+    service:
+      name: nginx
+      state: restarted
+
+
+
+
+
+

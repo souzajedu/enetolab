@@ -1,0 +1,21 @@
+---
+- name: Install Jenkins
+  hosts: centos
+  tasks: 
+    - name: Download Repo Jenkins
+      get_url:
+        url: https://pkg.jenkins.io/redhat-stable/jenkins.repo
+        dest: /etc/yum.repos.d/jenkins.repo
+
+    - name: Add Key Repo Jenkins
+      shell: rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io.key
+    
+    - name: Deps of Jenkins
+      yum:
+        name: java
+        state: present
+
+    - name: Install Jenkins
+      yum:
+        name: jenkins 
+        state: present
